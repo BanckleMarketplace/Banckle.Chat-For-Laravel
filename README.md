@@ -29,7 +29,7 @@ Add package to the list of providers. In config/app.php, add the following line 
 
 Publish config files from the terminal.
 <pre>
-php artisan config:publish aspose/cloud-laravel
+php artisan config:publish banckle/chat-laravel
 </pre>
 
 Edit the new config file in the config/packages/banckle/chat-laravel and enter your Banckle API Key, email & password.
