@@ -6,10 +6,11 @@ This is a Laravel Package to use Banckle.Chat SDK for PHP in Laravel application
 Installation
 ----------------------------------
 
-Add the following line to your composer.json file.
+Add the following lines to your composer.json file.
 
 <pre>
 require: {
+	"banckle/chat-sdk-php": "dev-master",		
 	"banckle/chat-laravel": "dev-master"
 }
 </pre>
@@ -51,7 +52,7 @@ Usage
 Anywhere in your application when you need to access class, just do:
 <pre>
 // To Generate token
-BanckleChat::getToekn();
+BanckleChat::getToken();
 
 BanckleChat::get($apiName, $token);
 </pre>
