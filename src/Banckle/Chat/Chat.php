@@ -2,12 +2,14 @@
 
 namespace Banckle\Chat;
 
+use Banckle\Chat\Product;
+use Banckle\Chat\APIClient;
+use Banckle\Chat\AuthApi;
+use Banckle\Chat\SessionApi;
+
 class Chat {
     private $config;
     private $exception = 'Exception';
-    private $APIClient = 'APIClient';
-    private $AuthApi = 'AuthApi';
-    private $SessionApi = 'SessionApi';
 
     public function __construct($config)
     {
@@ -26,7 +28,7 @@ class Chat {
      */
     private function APIClient()
     {
-        $apiClient = new $this->APIClient($this->apiKey,$this->banckleChatUri);
+        $apiClient = new APIClient($this->apiKey,$this->banckleChatUri);
         return $apiClient;
     }
     
@@ -37,10 +39,10 @@ class Chat {
      */
     public function getToken()
     {
-        $apiClient = new $this->APIClient($this->apiKey,$this->banckleAccountUri);
+        $apiClient = new APIClient($this->apiKey,$this->banckleAccountUri);
 
         $body = array('userEmail' => $this->email, 'password' => $this->password);
-        $auth = new $this->AuthApi($apiClient);
+        $auth = new AuthApi($apiClient);
         $result = $auth->getToken($body);
         $token = $result->authorization->token;
         return $token;
@@ -56,13 +58,12 @@ class Chat {
      */
     private function createSession($apiClient, $token) 
     {
-        $session = new $this->SessionApi($apiClient);
+        $session = new SessionApi($apiClient);
         $result = $session->createSession($token);
         $resource = $result->return->resource;
 
         // Set session resource
-        $className = 'Product';
-        $className::$xResource = $resource;
+        Product::$xResource = $resource;
     }
     
     /*
@@ -84,7 +85,8 @@ class Chat {
 
         $apiClient = $this->APIClient();
         $this->createSession($apiClient, $token);
-        return new $apiName($apiClient); 
+        $classPath = "Banckle\Chat\\$apiName"; 
+        return new $classPath($apiClient); 
     }
     
 }
